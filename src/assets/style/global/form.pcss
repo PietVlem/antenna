@@ -1,0 +1,74 @@
+input:focus, textarea:focus, select:focus{
+    @apply outline-none;
+}
+
+.at-contact-form {
+    @apply py-8;
+    &__inner-wrapper {
+        @apply col-span-full flex flex-col gap-12 bg-[#f6f6f6] px-4 py-8;
+        @screen md { @apply col-span-main px-8 py-12; }
+        @screen nm { @apply col-start-main-4 col-span-6 px-10 py-16; }
+
+        .form-group {
+            label { 
+                @apply block;
+            }
+            input[type="text"], textarea {
+                @apply w-full bg-transparent border-b border-black dt-colors py-4 px-3;
+                &:focus {
+                    @apply border-antenna-green;
+                }
+            }
+
+            textarea {
+                @apply resize-none h-40;
+            }
+
+            input[type="checkbox"] {
+                @apply hidden;
+            }
+
+            button {
+                @apply font-sans text-lg flex gap-4 items-center uppercase tracking-wider py-4 pl-5 pr-8 bg-black text-white dt-colors;
+                svg {
+                    @apply transform translate-x-0 dt-transform;
+                }
+                span, svg g {
+                    @apply dt-colors;
+                }
+                &:hover {
+                    @apply bg-antenna-green text-black;
+                    svg {
+                        @apply transform translate-x-2;
+                        g {
+                            @apply stroke-black;
+                        }
+                    }
+                }
+            }
+
+            &--text {
+                label {
+                    @apply mb-4;
+                }
+            }
+
+            &--chk {
+                @apply relative;
+
+                label {
+                    @apply pl-10 font-bold;
+                    &:before {
+                        content: '';
+                        @apply absolute w-6 h-6 border border-black top-0 left-0;
+                    }
+                }
+
+                input[type="checkbox"]:checked +label:after {
+                    content: '';
+                    @apply absolute w-4 h-4 bg-antenna-green top-1 left-1;
+                }
+            }
+        }
+    }
+}

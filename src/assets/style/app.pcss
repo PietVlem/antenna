@@ -1,3 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import 'tailwindcss/components';
+
+/* Global */
+@import "global/settings.pcss";
+/* @import "global/global.pcss"; */
+@import "global/typography.pcss";
+/* @import "global/buttons.pcss"; */
+@import "global/form.pcss"; 
+
+@import 'tailwindcss/utilities';
+
+/* Include settings via @layer. */
+@layer components {
+    /* Default Transitions */
+    .dt-colors {
+        @apply transition-colors duration-200;
+    }
+    .dt-transform {
+        @apply transition-transform duration-200;
+    }
+}
