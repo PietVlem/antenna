@@ -2,7 +2,7 @@ import Airtable from 'airtable'
 
 export default function useAirtable() {
     function createAirtableRecord(data) {
-        var base = new Airtable({ apiKey: import.meta.env.VITE_AIRTABLE_API_KEY }).base('apprAc6HQk9NOfd3v');
+        const base = new Airtable({ apiKey: import.meta.env.VITE_AIRTABLE_API_KEY }).base('apprAc6HQk9NOfd3v');
 
         base('Teams').create([
             {
