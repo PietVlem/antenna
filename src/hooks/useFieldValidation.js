@@ -8,8 +8,8 @@ export default function useFieldValidation() {
     }
 
     function validateEmail(value) {
-        if (!value) return isRequiredString
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+        if (!value) return isRequiredString
         if (!regex.test(value)) return emailNotValid
         return true
     }

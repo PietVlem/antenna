@@ -15,12 +15,6 @@ input:focus, textarea:focus, select:focus{
             label { 
                 @apply block;
             }
-            input[type="text"], input[type="email"], input[type="tel"], textarea {
-                @apply w-full bg-transparent border-b border-black dt-colors py-4 px-3;
-                &:focus {
-                    @apply border-antenna-green;
-                }
-            }
 
             textarea {
                 @apply resize-none h-40;
@@ -28,6 +22,20 @@ input:focus, textarea:focus, select:focus{
 
             input[type="checkbox"] {
                 @apply hidden;
+            }
+            
+            input[type="text"], input[type="email"], input[type="tel"], textarea {
+                @apply w-full bg-transparent border-b border-black dt-colors py-4 px-3;
+            }
+
+            input.error, textarea.error {
+                @apply border-red-500;
+            }
+
+            input[type="text"], input[type="email"], input[type="tel"], textarea {
+                &:focus {
+                    @apply border-antenna-green;
+                }
             }
 
             .field-error {
