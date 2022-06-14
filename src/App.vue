@@ -1,26 +1,40 @@
 <script setup>
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import useFieldValidation from '@/hooks/useFieldValidation'
+import useAirtable from '@/hooks/useAirtable'
 
+const { isRequired, validateEmail } = useFieldValidation()
+const { createAirtableRecord } = useAirtable()
+
+function onSubmit(values) {
+  console.log(values)
+}
 </script>
 
 <template>
+  <button @click="createAirtableRecord">create</button>
   <main>
     <div class="at-contact-form row">
-      <form class="at-contact-form__inner-wrapper">
+      <Form @submit="onSubmit" class="at-contact-form__inner-wrapper">
         <div class="form-group form-group--text">
           <label for="contact-first-name">Voornaam</label>
-          <input id="contact-first-name" type="text" required>
+          <Field name="contact-first-name" id="contact-first-name" type="text" :rules="isRequired" />
+          <ErrorMessage class="field-error" name="contact-first-name" />
         </div>
         <div class="form-group form-group--text">
           <label for="contact-name">Naam</label>
-          <input id="contact-name" type="text" required>
+          <Field name="contact-name" id="contact-name" type="text" :rules="isRequired" />
+          <ErrorMessage class="field-error" name="contact-name" />
         </div>
         <div class="form-group form-group--text">
           <label for="contact-email">Email</label>
-          <input id="contact-email" type="text" required>
+          <Field name="contact-email" id="contact-email" type="email" :rules="validateEmail" />
+          <ErrorMessage class="field-error" name="contact-email" />
         </div>
         <div class="form-group form-group--text">
           <label for="contact-phone">Telefoon (optioneel)</label>
-          <input id="contact-phone" type="text">
+          <Field name="contact-phone" id="contact-phone" type="tel"/>
+          <ErrorMessage class="field-error" name="contact-phone" />
         </div>
         <div class="form-group form-group--text">
           <label for="contact-question">Uw vraag of opmerking</label>
@@ -43,7 +57,7 @@
             </svg>
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   </main>
 </template>
