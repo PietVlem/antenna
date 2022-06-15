@@ -1,17 +1,18 @@
 <script setup>
-import { Form, Field, ErrorMessage, defineRule } from 'vee-validate'
-import { required, email, min } from '@vee-validate/rules'
-import useFieldValidation from '@/hooks/useFieldValidation'
-import useAirtable from '@/hooks/useAirtable'
-
-defineRule('required', required)
-defineRule('email', email)
+import { ref } from 'vue'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import useFieldValidation from '@/composables/useFieldValidation'
+import useAirtable from '@/composables/useAirtable'
 
 const { isRequired, validateEmail } = useFieldValidation()
-const { createAirtableRecord } = useAirtable()
+const { creatingRecord, createAirtableRecord } = useAirtable()
+
+const formSend = ref(false)
 
 function onSubmit(values) {
   createAirtableRecord(values)
+  formSend.value = true
+  window.scrollTo(0, 0)
 }
 </script>
 
@@ -19,6 +20,10 @@ function onSubmit(values) {
   <main>
     <div class="at-contact-form row">
       <Form @submit="onSubmit" class="at-contact-form__inner-wrapper" v-slot="{ errors }">
+        <div v-if="creatingRecord || formSend" class="form-succes-message">
+          <p v-if="creatingRecord">Formulier verzenden...</p>
+          <p v-else-if="formSend">Formulier verzonden. Wij proberen dit zo snel mogelijk te verwerken!</p>
+        </div>
         <div class="form-group form-group--text">
           <label for="contact-first-name">Voornaam</label>
           <Field name="contact-first-name" id="contact-first-name" type="text" :rules="isRequired"
@@ -34,7 +39,7 @@ function onSubmit(values) {
         <div class="form-group form-group--text">
           <label for="contact-email">Email</label>
           <Field name="contact-email" id="contact-email" type="email" :class="{ 'error': errors['contact-email'] }"
-            :rules="isRequired" />
+            :rules="validateEmail" />
           <ErrorMessage class="field-error" name="contact-email" />
         </div>
         <div class="form-group form-group--text">
