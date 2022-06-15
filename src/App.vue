@@ -7,11 +7,38 @@ import useAirtable from '@/composables/useAirtable'
 const { isRequired, validateEmail } = useFieldValidation()
 const { creatingRecord, createAirtableRecord } = useAirtable()
 
+const myForm = ref()
 const formSend = ref(false)
+const firstName = ref('')
+
+function onInvalidSubmit({ errors }) {
+  // Scroll to first el on the form with an error
+  const fieldName = Object.keys(errors)[0]
+  const el = document.querySelector(`label[for="${fieldName}"]`)
+  el?.scrollIntoView()
+}
 
 function onSubmit(values) {
+  // Create new airtable record
   createAirtableRecord(values)
+
+  // Set the formSend ref to true
   formSend.value = true
+
+  // Get the first name of the form and add it to the firstName ref
+  firstName.value = values['contact-first-name'] || ''
+
+  // Reset the form values
+  myForm.value.setValues({
+    'contact-first-name': '',
+    'contact-name': '',
+    'contact-email': '',
+    'contact-phone': '',
+    'contact-question': '',
+    'contact-newsletter': false,
+  });
+
+  // Scroll to the top of the form
   window.scrollTo(0, 0)
 }
 </script>
@@ -19,10 +46,12 @@ function onSubmit(values) {
 <template>
   <main>
     <div class="at-contact-form row">
-      <Form @submit="onSubmit" class="at-contact-form__inner-wrapper" v-slot="{ errors }">
+      <Form @invalid-submit="onInvalidSubmit" @submit="onSubmit" class="at-contact-form__inner-wrapper"
+        v-slot="{ errors }" ref="myForm">
         <div v-if="creatingRecord || formSend" class="form-succes-message">
           <p v-if="creatingRecord">Formulier verzenden...</p>
-          <p v-else-if="formSend">Formulier verzonden. Wij proberen dit zo snel mogelijk te verwerken!</p>
+          <p v-else-if="formSend">Formulier verzonden. Hey {{ firstName }}, Bedankt voor uw intresse in antenna! Wij
+            proberen uw bericht zo snel mogelijk te verwerken!</p>
         </div>
         <div class="form-group form-group--text">
           <label for="contact-first-name">Voornaam</label>
